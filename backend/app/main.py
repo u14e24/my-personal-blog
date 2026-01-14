@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from sqlmodel import SQLModel
 from database import engine
-from routes import post_routes  # Import the router from routes
+from routes import post_routes
+from routes import user_routes  # Import the router from routes
 
 # Create FastAPI app
 app = FastAPI(
@@ -15,3 +16,5 @@ SQLModel.metadata.create_all(engine)
 
 # Include routes
 app.include_router(post_routes.router)
+app.include_router(user_routes.users_router)
+app.include_router(user_routes.auth_router)
