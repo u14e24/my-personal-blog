@@ -7,7 +7,6 @@ from fastapi import Depends
 
 class PostCreate(BaseModel):
     title: str
-    current_user: User
     content: str
     tags: list[str]
 
