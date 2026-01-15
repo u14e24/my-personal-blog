@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from sqlmodel import SQLModel
-from database import engine
-from routes import post_routes
-from routes import user_routes  # Import the router from routes
+from app.database import engine
+from app.routes import post_routes
+from app.routes import user_routes  # Import the router from routes
 
 # Create FastAPI app
 app = FastAPI(

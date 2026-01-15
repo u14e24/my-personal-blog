@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlmodel import Session 
-from utils.security import get_current_user
-from services.post_service import create_post, get_posts
-from schemas.post_schema import PostCreate, PostRead
-from database import get_session
+from app.utils.security import get_current_user
+from app.services.post_service import create_post, get_posts
+from app.schemas.post_schema import PostCreate, PostRead
+from app.database import get_session
 from pydantic import BaseModel
-from models.post import Post
-from models.user import User
+from app.models.post import Post
+from app.models.user import User
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
 @router.post("/", response_model=PostRead)

@@ -3,9 +3,9 @@ from jose import jwt, JWTError
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException
-from database import get_session
+from app.database import get_session
 from sqlmodel import Session, select 
-from models.user import User
+from app.models.user import User
 
 SECRET_KEY = "63f4945d921d599f27ae4fdf5bada3f1"
 ALGORITHM = "HS256"

@@ -1,7 +1,7 @@
 from sqlmodel import SQLModel, Field
 from sqlmodel import SQLModel, Field, Relationship
 from typing import List, Optional
-from .post_tag import PostTag
+from app.models.post_tag import PostTag
 
 class Tag(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)

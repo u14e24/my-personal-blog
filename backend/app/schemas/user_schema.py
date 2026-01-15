@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, field_validator
-from models.user import UserRole
+from app.models.user import UserRole
 
 class UserPublic(BaseModel):
     id: int

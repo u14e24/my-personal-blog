@@ -1,8 +1,8 @@
 from sqlmodel import select
-from database import get_session
+from app.database import get_session
 from sqlalchemy.orm import selectinload
-from models.post import Post
-from models.tag import Tag
+from app.models.post import Post
+from app.models.tag import Tag
 
 def create_post(post_data, current_user, session):
     tag_objs = []

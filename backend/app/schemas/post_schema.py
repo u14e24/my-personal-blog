@@ -1,7 +1,7 @@
 from pydantic import BaseModel
-from .user_schema import UserPublic
-from .tag_schema import TagRead
-from models.user import User
+from app.schemas.user_schema import UserPublic
+from app.schemas.tag_schema import TagRead
+from app.models.user import User
 from fastapi import Depends
 
 

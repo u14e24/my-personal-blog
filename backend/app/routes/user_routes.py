@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select 
-from schemas.user_schema import UserCreate, UserPublic
-from database import get_session
+from app.schemas.user_schema import UserCreate, UserPublic
+from app.database import get_session
 from pydantic import BaseModel
-from models.user import User, UserRole
+from app.models.user import User, UserRole
 from fastapi.security import OAuth2PasswordRequestForm
-import utils.security as security
+import app.utils.security as security
 
 users_router = APIRouter(prefix="/users", tags=["Users"])
 
