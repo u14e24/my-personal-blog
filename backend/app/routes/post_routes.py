@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlmodel import Session 
 from app.utils.security import get_current_user
 from app.services.post_service import create_post, get_posts
@@ -18,8 +18,11 @@ def add_post(post: PostCreate,
     
 
 @router.get("/", response_model=list[PostRead])
-def read_posts(tag: str | None = None, session: Session = Depends(get_session)):
+def read_posts(tag: str | None = None, 
+               skip: int = Query(0, ge=0), 
+               limit: int = Query(10, ge=1, le=100), 
+               session: Session = Depends(get_session)):
     
-    return get_posts(session, tag)
+    return get_posts(session, skip, limit, tag)
     
 

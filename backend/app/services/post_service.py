@@ -26,7 +26,7 @@ def create_post(post_data, current_user, session):
     
     return post
 
-def get_posts(session, tag):
+def get_posts(session, skip, limit, tag):
     statement = select(Post).options(
         selectinload(Post.user),
         selectinload(Post.tags),
@@ -39,6 +39,8 @@ def get_posts(session, tag):
             .where(Tag.name == tag)
             .distinct()
         )
+
+    statement = statement.offset(skip).limit(limit)
 
     posts = session.exec(statement).all()
     
