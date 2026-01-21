@@ -49,3 +49,15 @@ def get_posts(session, skip, limit, tag):
     return posts
 
 
+def delete_post(session, post_id: int, current_user) -> bool:
+    post = session.get(Post, post_id)
+    if not post:
+        return False  # Post does not exist
+    
+    # Check ownership or admin role
+    if post.user_id != current_user.id and current_user.role != "admin":
+        return False  # Unauthorized
+    
+    session.delete(post)
+    session.commit()
+    return True

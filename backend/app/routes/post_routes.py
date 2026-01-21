@@ -1,7 +1,7 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlmodel import Session 
 from app.utils.security import get_current_user
-from app.services.post_service import create_post, get_posts
+from app.services.post_service import create_post, get_posts, delete_post
 from app.schemas.post_schema import PostCreate, PostRead
 from app.database import get_session
 from pydantic import BaseModel
@@ -25,3 +25,18 @@ def read_posts(tag: str | None = None,
     
     posts = get_posts(session, skip, limit, tag)
     return [PostRead.model_validate(post) for post in posts]
+
+
+@router.delete("/{post_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_post(
+    post_id: int,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user)
+):
+    success = delete_post(session, post_id, current_user)
+    if not success:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You do not have permission to delete this post"
+        )
+    return None  # 204 No Content
