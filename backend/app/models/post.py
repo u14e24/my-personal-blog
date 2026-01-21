@@ -1,5 +1,5 @@
 from typing import List, Optional
-from sqlmodel import SQLModel, Field, Relationship
+from sqlmodel import SQLModel, Field, Relationship, Column, String
 from .user import User
 from .post_tag import PostTag
 
@@ -9,6 +9,7 @@ class Post(SQLModel, table=True):
     content: str
     user_id: int = Field(foreign_key="user.id")
     user: Optional[User] = Relationship (back_populates="posts")
+    cover_image: str | None = Field(default=None) 
     tags: List["Tag"] = Relationship(
         back_populates="posts",
         link_model = PostTag

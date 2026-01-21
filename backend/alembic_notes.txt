@@ -1,0 +1,8 @@
+(venv) C:\Users\ThinkPad L480\my-personal-blog\backend>alembic -c alembic.ini upgrade head
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 97d299d2504c, add cover_image
+
+(venv) C:\Users\ThinkPad L480\my-personal-blog\backend>alembic -c alembic.ini revision --autogenerate -m "add cover_image"
+
+(venv) C:\Users\ThinkPad L480\my-personal-blog\backend>alembic -c alembic.ini upgrade head

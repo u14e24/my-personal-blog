@@ -12,11 +12,13 @@ def create_post(post_data, current_user, session):
             tag = Tag(name=tag_name)
             session.add(tag)
         tag_objs.append(tag)
-        
+
+
     post = Post(
         title=post_data.title,
         user_id = current_user.id,
         content=post_data.content,
+        cover_image = post_data.cover_image,
         tags=tag_objs
     )
     

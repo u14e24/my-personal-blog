@@ -23,6 +23,5 @@ def read_posts(tag: str | None = None,
                limit: int = Query(10, ge=1, le=100), 
                session: Session = Depends(get_session)):
     
-    return get_posts(session, skip, limit, tag)
-    
-
+    posts = get_posts(session, skip, limit, tag)
+    return [PostRead.model_validate(post) for post in posts]

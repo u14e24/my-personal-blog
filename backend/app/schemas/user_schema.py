@@ -2,7 +2,6 @@ from pydantic import BaseModel, Field, field_validator
 from app.models.user import UserRole
 
 class UserPublic(BaseModel):
-    id: int
     username: str
     avatar: str | None
     role: UserRole
