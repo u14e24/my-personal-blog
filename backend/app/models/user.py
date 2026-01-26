@@ -14,3 +14,4 @@ class User(SQLModel, table=True):
     avatar: Optional[str] = None
     role: UserRole = Field(default=UserRole.regular)
     posts: List["Post"] = Relationship(back_populates="user")
+    

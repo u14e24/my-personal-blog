@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field, field_validator
 from app.models.user import UserRole
 
+class OpenUserCreationWindow(BaseModel):
+    minutes: int = 15
+    invite_code: str = "default-code"
+
 class UserPublic(BaseModel):
     username: str
     avatar: str | None
@@ -14,6 +18,7 @@ class UserCreate(BaseModel):
     username: str = Field (min_length=8, max_length=72)
     password: str
     avatar: str | None = None
+    invite_code: str | None = None
 
     @field_validator("password")
     @classmethod

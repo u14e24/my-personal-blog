@@ -1,4 +1,4 @@
-from pydantic import BaseModel, model_validator, field_validator, ValidationError
+from pydantic import BaseModel, Field, model_validator, field_validator, ValidationError
 from app.schemas.user_schema import UserPublic
 from app.schemas.tag_schema import TagRead
 from app.models.user import User
@@ -8,6 +8,9 @@ import re
 DEFAULT_COVER_IMAGE = "/static/images/default-post-cover.png"
 # Regex for path ending with common image extensions
 IMAGE_PATH_REGEX = re.compile(r"^.*\.(jpg|jpeg|png|webp)$", re.IGNORECASE)
+
+class PostDelete(BaseModel):
+    post_ids: list[int] = Field(min_length=1)
 
 
 class PostCreate(BaseModel):
@@ -22,7 +25,6 @@ class PostCreate(BaseModel):
         if not IMAGE_PATH_REGEX.match(v):
             raise ValueError("cover_image must be a valid path ending in .jpg, .jpeg, .png, or .webp")
         return v
-    
     
 class PostRead(BaseModel):
     title: str

@@ -1,4 +1,4 @@
-from sqlmodel import select
+from sqlmodel import select, delete
 from app.database import get_session
 from sqlalchemy.orm import selectinload
 from app.models.post import Post
@@ -49,15 +49,21 @@ def get_posts(session, skip, limit, tag):
     return posts
 
 
-def delete_post(session, post_id: int, current_user) -> bool:
-    post = session.get(Post, post_id)
-    if not post:
-        return False  # Post does not exist
-    
-    # Check ownership or admin role
-    if post.user_id != current_user.id and current_user.role != "admin":
-        return False  # Unauthorized
-    
-    session.delete(post)
+def delete_posts(session, post_ids, current_user):
+    """
+    Admin: deletes any post
+    User: deletes only their own posts
+    Returns number of deleted posts
+    """
+
+    stmt = delete(Post).where(Post.id.in_(post_ids))
+
+    # Non-admins can delete only their own posts
+    if current_user.role != "admin":
+        stmt = stmt.where(Post.user_id == current_user.id)
+
+    result = session.exec(stmt)
     session.commit()
-    return True
+
+    return result.rowcount or 0
+

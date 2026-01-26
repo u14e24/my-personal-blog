@@ -1,11 +1,16 @@
 import getpass
-from sqlmodel import Session, select
-from app.models.user import User, UserRole  
+
+from sqlmodel import Session, SQLModel, select
+
 from app.database import get_engine
+from app.models.user import User, UserRole
 from app.utils.security import hash_passwd 
 
 def main():
     engine = get_engine()  # create SQLAlchemy engine
+
+    # Create all tables
+    SQLModel.metadata.create_all(engine)
 
     with Session(engine) as session:
         username = input("Enter admin username: ")
