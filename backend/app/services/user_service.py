@@ -1,6 +1,8 @@
 from sqlmodel import Session, select, delete
 from app.models.user import User
 from app.models.post import Post
+from fastapi import HTTPException
+from app.utils.security import hash_passwd
 
 
 def delete_user_and_posts(session: Session, user_id: int) -> tuple[int, int]:
@@ -19,3 +21,26 @@ def delete_user_and_posts(session: Session, user_id: int) -> tuple[int, int]:
     session.commit()
 
     return post_result.rowcount or 0, user_result.rowcount or 0
+
+
+def update_user(session: Session, user_id: int, update_data):
+    user = session.exec(select(User).where(User.id == user_id)).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if update_data.username is not None:
+        # Check if username is already taken
+        existing = session.exec(select(User).where(User.username == update_data.username)).first()
+        if existing and existing.id != user_id:
+            raise HTTPException(status_code=400, detail="Username already taken")
+        user.username = update_data.username
+    
+    if update_data.password is not None:
+        user.hashed_password = hash_passwd(update_data.password)
+    
+    if update_data.avatar is not None:
+        user.avatar = update_data.avatar
+    
+    session.commit()
+    session.refresh(user)
+    return user

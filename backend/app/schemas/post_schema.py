@@ -19,6 +19,15 @@ class PostBase(BaseModel):
     tags: list[str] | None = None
     cover_image: str | None = None
     
+    @field_validator("title", mode="before")
+    def validate_title(cls, v):
+        if v is not None:
+            if len(v) < 1:
+                raise ValueError("Title cannot be empty")
+            if len(v) > 100:
+                raise ValueError("Title must be 100 characters or less")
+        return v
+    
     @field_validator("cover_image", mode="before")
     def validate_cover_image(cls, v):
         if v is not None and not IMAGE_PATH_REGEX.match(v):
@@ -37,6 +46,7 @@ class PostUpdate(PostBase):
 
 
 class PostRead(BaseModel):
+    id: int
     title: str
     content: str
     user: UserPublic

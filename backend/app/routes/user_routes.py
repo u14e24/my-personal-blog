@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
-from app.schemas.user_schema import UserCreate, UserPublic
+from app.schemas.user_schema import UserCreate, UserPublic, UserUpdate
 from app.database import get_session
 from pydantic import BaseModel
 from app.models.user import User, UserRole
 from app.models.post import Post
-from app.services.user_service import delete_user_and_posts
+from app.services.user_service import delete_user_and_posts, update_user
 from fastapi.security import OAuth2PasswordRequestForm
 import app.utils.security as security
 from datetime import datetime
@@ -41,6 +41,15 @@ def create_user(
         security.USER_CREATED_THIS_WINDOW = True
     
     return db_user
+
+
+@users_router.put("/me", response_model=UserPublic)
+def update_me(
+    update_data: UserUpdate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(security.get_current_user),
+):
+    return update_user(session, current_user.id, update_data)
 
 
 @users_router.get("/", response_model=list[UserPublic])
