@@ -7,6 +7,7 @@ from app.database import get_session
 from sqlmodel import Session, select 
 from app.models.user import User, UserRole
 
+# TODO: Move SECRET_KEY to environment variables
 SECRET_KEY = "63f4945d921d599f27ae4fdf5bada3f1"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
@@ -24,6 +25,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 def hash_passwd(password: str) -> str:
+    # TODO: Add password strength validation (e.g., require uppercase, numbers) before hashing
     return pwd_context.hash(password)
 
 def verify_password(password: str, hashed: str) -> bool:

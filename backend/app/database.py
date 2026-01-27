@@ -6,6 +6,8 @@ from app.models.post_tag import PostTag
 from app.models.tag import Tag
 from pathlib import Path
 
+# TODO: Move DATABASE_URL and SECRET_KEY to environment variables (use python-dotenv)
+
 BASE_DIR = Path(__file__).resolve().parent
 
 DATABASE_URL = f"sqlite:///{BASE_DIR}/blog_zsoptij.db"

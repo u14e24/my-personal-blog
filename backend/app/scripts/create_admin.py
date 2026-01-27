@@ -6,6 +6,8 @@ from app.database import get_engine
 from app.models.user import User, UserRole
 from app.utils.security import hash_passwd 
 
+# TODO: Add database backup script (e.g., daily copy to cloud storage like S3)
+
 def main():
     engine = get_engine()  # create SQLAlchemy engine
 

@@ -9,6 +9,9 @@ from pydantic import BaseModel
 from app.models.post import Post
 from app.models.user import User
 import re
+
+# TODO: Add file upload handling for cover images if switching from URLs to local files
+
 router = APIRouter(prefix="/posts", tags=["Posts"])
 
 @router.post("/", response_model=PostRead)
