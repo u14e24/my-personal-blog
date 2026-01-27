@@ -13,19 +13,29 @@ class PostDelete(BaseModel):
     post_ids: list[int] = Field(min_length=1)
 
 
-class PostCreate(BaseModel):
-    title: str
-    content: str
-    tags: list[str]
+class PostBase(BaseModel):
+    title: str | None = None
+    content: str | None = None
+    tags: list[str] | None = None
     cover_image: str | None = None
     
     @field_validator("cover_image", mode="before")
     def validate_cover_image(cls, v):
-        # Regex check
-        if not IMAGE_PATH_REGEX.match(v):
+        if v is not None and not IMAGE_PATH_REGEX.match(v):
             raise ValueError("cover_image must be a valid path ending in .jpg, .jpeg, .png, or .webp")
         return v
-    
+
+
+class PostCreate(PostBase):
+    title: str
+    content: str
+    tags: list[str]
+
+
+class PostUpdate(PostBase):
+    pass
+
+
 class PostRead(BaseModel):
     title: str
     content: str

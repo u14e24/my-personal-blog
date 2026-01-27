@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, Query, HTTPException, status
 from sqlmodel import Session 
 from app.utils.security import get_current_user, get_current_admin
-from app.services.post_service import create_post, get_posts, delete_posts as service_delete_posts
-from app.schemas.post_schema import PostCreate, PostRead, PostDelete
+from app.services.post_service import create_post, get_posts, delete_posts as service_delete_posts, update_post
+from app.schemas.post_schema import PostCreate, PostRead, PostDelete, PostUpdate
 from app.database import get_session
 from pydantic import BaseModel
 from app.models.post import Post
@@ -42,3 +42,13 @@ def delete_posts(
         )
 
     return {"deleted": deleted}
+
+
+@router.put("/{post_id}", response_model=PostRead)
+def update_post_route(
+    post_id: int,
+    update_data: PostUpdate,
+    session: Session = Depends(get_session),
+    current_user: User = Depends(get_current_user),
+):
+    return update_post(post_id, update_data, current_user, session)
