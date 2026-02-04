@@ -27,5 +27,8 @@ dist-ssr
 *.pyc
 __pycache__/*
 
+#DB
+*.db
+
 # Backend venv
 backend/venv
